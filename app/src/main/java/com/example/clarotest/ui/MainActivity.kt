@@ -1,6 +1,5 @@
 package com.example.clarotest.ui
 
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             true -> {
                 val orientation = resources.configuration.orientation
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-
+                    navigationController(binding)
                 } else {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.frameLayout1, HomeFragment())
@@ -34,19 +33,18 @@ class MainActivity : AppCompatActivity() {
                 }
 
             } false -> {
-            val navHostFragment =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-                val navController = navHostFragment.navController
-
-                val appBarConfiguration = AppBarConfiguration(navController.graph)
-                binding.toolbar?.setupWithNavController(navController, appBarConfiguration)
+                navigationController(binding)
             }
         }
 
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-//        val navController = navHostFragment.navController
-//        val appBarConfiguration = AppBarConfiguration(navController.graph)
-//        binding.toolbar?.setupWithNavController(navController, appBarConfiguration)
+    }
 
+    private fun navigationController(binding: ActivityMainBinding) {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.toolbar?.setupWithNavController(navController, appBarConfiguration)
     }
 }
