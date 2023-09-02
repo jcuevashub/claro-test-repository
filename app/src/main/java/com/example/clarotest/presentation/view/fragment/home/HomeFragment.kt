@@ -42,6 +42,9 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+//        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+//        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+//        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -58,7 +61,6 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // Handle the submit button action
                 return false
             }
 
@@ -125,10 +127,6 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
     }
 
     private fun setupUI() {
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-        setHasOptionsMenu(true)
-
         binding.entryRv.apply {
             layoutManager = LinearLayoutManager(
                 context,

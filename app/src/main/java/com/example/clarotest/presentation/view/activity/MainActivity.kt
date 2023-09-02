@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-       // navigationController(binding)
 
         when(resources.getBoolean(R.bool.isTablet)) {
             true -> {
@@ -50,6 +49,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar!!.setupWithNavController(navController, appBarConfiguration)
     }
 }
