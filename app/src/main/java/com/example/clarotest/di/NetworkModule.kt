@@ -1,8 +1,8 @@
 package com.example.clarotest.di
-import com.example.clarotest.common.Constants.BASE_URL
+import com.example.clarotest.util.Constants.BASE_URL
 import com.example.clarotest.data.remote.ApiService
 import com.example.clarotest.data.repositories.AnimalRepositoryImpl
-import com.example.clarotest.domain.repositories.AnimalRepository
+import com.example.clarotest.domain.repositories.EntryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -68,7 +68,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRepository(apiService: ApiService): AnimalRepository {
+    fun provideRepository(apiService: ApiService): EntryRepository {
         return AnimalRepositoryImpl(apiService)
     }
 

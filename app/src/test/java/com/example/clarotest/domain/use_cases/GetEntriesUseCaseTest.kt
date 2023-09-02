@@ -1,6 +1,6 @@
 package com.example.clarotest.domain.use_cases
 
-import com.example.clarotest.common.Resource
+import com.example.clarotest.util.Resource
 import com.example.clarotest.data.repository.FakeEntriesRepository
 import com.example.clarotest.domain.models.EntryDetails
 import kotlinx.coroutines.flow.first
