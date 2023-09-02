@@ -3,9 +3,13 @@ package com.example.clarotest.presentation.view.fragment.home
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -31,7 +35,6 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var entryAdapter: EntryAdapter
-    private lateinit var searchView: SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +42,6 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        searchView = binding.root.findViewById(R.id.searchView)
         return binding.root
     }
 
@@ -47,17 +49,26 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupObserver()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+        val searchItem = menu.findItem(R.id.actionSearch)
+        val searchView = searchItem.actionView as SearchView
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                // Handle the submit button action
                 return false
             }
 
-            override fun onQueryTextChange(newText: String): Boolean {
+            override fun onQueryTextChange(newText: String?): Boolean {
                 entryAdapter.filter.filter((newText))
                 return false
             }
         })
 
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun setupObserver() {
@@ -114,6 +125,10 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
     }
 
     private fun setupUI() {
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        setHasOptionsMenu(true)
+
         binding.entryRv.apply {
             layoutManager = LinearLayoutManager(
                 context,
