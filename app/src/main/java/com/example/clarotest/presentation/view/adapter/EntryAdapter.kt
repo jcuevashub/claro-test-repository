@@ -11,14 +11,14 @@ import com.example.clarotest.databinding.ItemRecylerBinding
 import com.example.clarotest.domain.models.EntryDetails
 import java.util.Locale
 
-class EntryAdapter(private val listener: EntryItemListener?, private var entryList: ArrayList<EntryDetails>?
+class EntryAdapter(private val listener: EntryItemListener, private var entryList: ArrayList<EntryDetails>
 ) : RecyclerView.Adapter<EntryAdapter.EntryViewHolder>(), Filterable {
 
     interface EntryItemListener {
         fun onClickedItem(entry: EntryDetails)
     }
 
-    private var itemsFiltered: ArrayList<EntryDetails> = entryList!!
+    private var itemsFiltered: ArrayList<EntryDetails> = entryList
 
     class EntryViewHolder(
         private val binding: ItemRecylerBinding,
@@ -39,10 +39,10 @@ class EntryAdapter(private val listener: EntryItemListener?, private var entryLi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
         val binding = ItemRecylerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return EntryViewHolder(binding, listener!!)
+        return EntryViewHolder(binding, listener)
     }
 
-    override fun getItemCount(): Int = entryList!!.size
+    override fun getItemCount(): Int = entryList.size
 
     override fun getFilter(): Filter {
         return object : Filter() {
@@ -51,11 +51,11 @@ class EntryAdapter(private val listener: EntryItemListener?, private var entryLi
                 val filteredList = if (query.isEmpty()) {
                     entryList
                 } else {
-                    entryList!!.filter {
+                    entryList.filter {
                         it.API.lowercase(Locale.ROOT).contains(query) ||
                         it.Description.lowercase(Locale.ROOT).contains(query)
                     }
-                }!!.toMutableList()
+                }.toMutableList()
 
                 return FilterResults().apply { values = filteredList }
             }
@@ -63,7 +63,7 @@ class EntryAdapter(private val listener: EntryItemListener?, private var entryLi
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 itemsFiltered = results?.values as ArrayList<EntryDetails>
                 if(itemsFiltered.isEmpty()) {
-                    itemsFiltered = entryList!!
+                    itemsFiltered = entryList
                 } else {
                     notifyDataSetChanged()
                 }
@@ -75,14 +75,14 @@ class EntryAdapter(private val listener: EntryItemListener?, private var entryLi
         holder.bind(itemsFiltered[position])
 
         holder.itemView.setOnClickListener {
-            listener!!.onClickedItem(itemsFiltered[position])
+            listener.onClickedItem(itemsFiltered[position])
         }
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun addData(list: List<EntryDetails>) {
-        entryList!!.addAll(list)
+        entryList.addAll(list)
         notifyDataSetChanged()
     }
 }

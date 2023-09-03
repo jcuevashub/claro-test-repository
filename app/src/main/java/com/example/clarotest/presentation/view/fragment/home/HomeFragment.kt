@@ -3,15 +3,9 @@ package com.example.clarotest.presentation.view.fragment.home
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -37,6 +31,7 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var entryAdapter: EntryAdapter
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +39,7 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        searchView = binding.root.findViewById(R.id.searchView)
         return binding.root
     }
 
@@ -51,6 +47,17 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupObserver()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                entryAdapter.filter.filter((newText))
+                return false
+            }
+        })
+
     }
 
     private fun setupObserver() {
@@ -107,20 +114,6 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
     }
 
     private fun setupUI() {
-        // Set up SearchView
-        val searchView = binding.searchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                Toast.makeText(activity, "Searching for $query", Toast.LENGTH_SHORT).show()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                entryAdapter.filter.filter((newText))
-                return true
-            }
-        })
-
         binding.entryRv.apply {
             layoutManager = LinearLayoutManager(
                 context,

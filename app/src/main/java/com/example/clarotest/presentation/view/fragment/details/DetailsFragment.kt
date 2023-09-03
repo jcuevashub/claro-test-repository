@@ -3,18 +3,11 @@ package com.example.clarotest.presentation.view.fragment.details
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.example.clarotest.R
 import com.example.clarotest.databinding.FragmentDetailsBinding
 import com.example.clarotest.domain.models.EntryDetails
@@ -42,7 +35,7 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        buildNavigation()
+
 
         when( resources.getBoolean(R.bool.isTablet)) {
             true -> {
@@ -56,14 +49,6 @@ class DetailsFragment : Fragment() {
             }
         }
 
-    }
-
-    private fun buildNavigation() {
-//        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-//        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-        val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-       // toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     private fun showWebView() {
