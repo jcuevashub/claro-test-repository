@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -50,25 +51,6 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupObserver()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
-        val searchItem = menu.findItem(R.id.actionSearch)
-        val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-            override fun onQueryTextChange(newText: String?): Boolean {
-                entryAdapter.filter.filter((newText))
-                return false
-            }
-        })
-    }
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val item: MenuItem = menu.findItem(R.id.actionSearch)
-        item.isVisible = true
     }
 
     private fun setupObserver() {
@@ -125,7 +107,19 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
     }
 
     private fun setupUI() {
-        setHasOptionsMenu(true)
+        // Set up SearchView
+        val searchView = binding.searchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Toast.makeText(activity, "Searching for $query", Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                entryAdapter.filter.filter((newText))
+                return true
+            }
+        })
 
         binding.entryRv.apply {
             layoutManager = LinearLayoutManager(
