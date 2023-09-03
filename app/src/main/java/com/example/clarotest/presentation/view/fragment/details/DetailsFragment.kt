@@ -59,11 +59,11 @@ class DetailsFragment : Fragment() {
     }
 
     private fun buildNavigation() {
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+//        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+//        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        toolbar.setupWithNavController(navController, appBarConfiguration)
+       // toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     private fun showWebView() {

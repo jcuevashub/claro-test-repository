@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -42,9 +43,6 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-//        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-//        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-//        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -58,19 +56,19 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
         inflater.inflate(R.menu.search_menu, menu)
         val searchItem = menu.findItem(R.id.actionSearch)
         val searchView = searchItem.actionView as SearchView
-
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 entryAdapter.filter.filter((newText))
                 return false
             }
         })
-
-        super.onCreateOptionsMenu(menu, inflater)
+    }
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val item: MenuItem = menu.findItem(R.id.actionSearch)
+        item.isVisible = true
     }
 
     private fun setupObserver() {
@@ -127,6 +125,8 @@ class HomeFragment : Fragment(), EntryAdapter.EntryItemListener {
     }
 
     private fun setupUI() {
+        setHasOptionsMenu(true)
+
         binding.entryRv.apply {
             layoutManager = LinearLayoutManager(
                 context,
